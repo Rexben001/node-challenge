@@ -9,7 +9,7 @@ const publicFields = [
   'status',
 ];
 
-export function secureTrim(expense: Expense): string {
+export function secureTrim(expense: Expense[]): string {
   return JSON.stringify(expense, publicFields);
 }
 

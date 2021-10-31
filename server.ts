@@ -1,7 +1,6 @@
 import config from 'config';
 import context from './middleware/context';
 import { router as expenseRoutes } from '@nc/domain-expense';
-import express from 'express';
 import gracefulShutdown from '@nc/utils/graceful-shutdown';
 import helmet from 'helmet';
 import Logger from '@nc/utils/logging';
@@ -12,6 +11,12 @@ import {
   createServer as createHTTPSServer,
   Server as SecureServer,
 } from 'https';
+import express, {
+  ErrorRequestHandler,
+  NextFunction,
+  Request,
+  Response,
+} from 'express';
 
 const logger = Logger('server');
 const app = express();
@@ -24,14 +29,17 @@ server.ready = false;
 gracefulShutdown(server);
 
 app.use(helmet());
-app.get('/readycheck', function readinessEndpoint(req, res) {
+app.get('/readycheck', function readinessEndpoint(req: Request, res: Response) {
   const status = server.ready ? 200 : 503;
   res.status(status).send(status === 200 ? 'OK' : 'NOT OK');
 });
 
-app.get('/healthcheck', function healthcheckEndpoint(req, res) {
-  res.status(200).send('OK');
-});
+app.get(
+  '/healthcheck',
+  function healthcheckEndpoint(req: Request, res: Response) {
+    res.status(200).send('OK');
+  }
+);
 
 app.use(context);
 app.use(security);
@@ -39,9 +47,9 @@ app.use(security);
 app.use('/user', userRoutes);
 app.use('/expense', expenseRoutes);
 
-app.use(function (err, req, res, next) {
-  res.status(500).json(err);
-});
+app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
+  res.status(err.status || 500).json(err);
+} as ErrorRequestHandler);
 
 server.listen(config.port, () => {
   server.ready = true;
