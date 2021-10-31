@@ -48,7 +48,7 @@ describe('User Domain Acceptance Tests', () => {
       expect(userExpenses.length).toBe(0);
     });
 
-    test('/expense/v1/get-user-expenses should return zero results', async () => {
+    test('/expense/v1/get-user-expenses should return error', async () => {
       const response = await Api.get(
         '/expense/v1/get-user-expenses?userId=12345'
       );
@@ -56,6 +56,15 @@ describe('User Domain Acceptance Tests', () => {
       expect(response.body.title).toBe('Internal Server Error');
       expect(response.body.message).toMatch(
         /Error fetching data from the DB: invalid input syntax for type uuid/
+      );
+    });
+
+    test('/expense/v1/get-user-expenses should return 400 error', async () => {
+      const response = await Api.get('/expense/v1/get-user-expenses');
+      expect(response.status).toBe(400);
+      expect(response.body.title).toBe('Bad Request');
+      expect(response.body.message).toBe(
+        'Could not get user expenses: Error: userId property is missing.'
       );
     });
   });

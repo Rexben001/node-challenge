@@ -32,6 +32,6 @@ export async function getUserExpenses({
 
   return {
     expenses: rawUserExpenses.map((rawExpense) => format(rawExpense)),
-    count: totalCount[0]?.count || 0,
+    count: Number(totalCount[0]?.count) || 0,
   };
 }

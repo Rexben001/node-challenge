@@ -30,5 +30,14 @@ describe('User Domain Acceptance Tests', () => {
         /Error fetching data from the DB: invalid input syntax for type uuid/
       );
     });
+
+    test('/user/v1/get-user-details should return 400 error', async () => {
+      const response = await Api.get('/user/v1/get-user-details');
+      expect(response.status).toBe(400);
+      expect(response.body.title).toBe('Bad Request');
+      expect(response.body.message).toBe(
+        'Could not get user details: Error: userId property is missing.'
+      );
+    });
   });
 });
