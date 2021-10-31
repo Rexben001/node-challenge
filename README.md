@@ -57,7 +57,7 @@ The command above will run the following test suites sequentially:
 
 Happy hacking 😁!
 
-How I solved the Challenge
+## How I solved the Challenge
 
 The challenge was an interesting challrnge. It took me roughly 8 hours.
 
