@@ -56,3 +56,14 @@ The command above will run the following test suites sequentially:
 
 
 Happy hacking 😁!
+
+How I solved the Challenge
+
+The challenge was an interesting challrnge. It took me roughly 8 hours.
+
+- The first thing I did after setting up was to run the already written test cases. I fix some errors that came up
+- Went ahead to build out the user expenses functionality but referring to the user domain files
+- I wrote some unit tests and integration tests
+- I added pagination and sorting functionalities to the user expenses route
+- I added more TypeScript types 
+- I added more test cases
